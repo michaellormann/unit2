@@ -1,0 +1,89 @@
+package leprechaun
+
+type Pe int
+type Sa int
+
+const (
+	NH Pe = iota
+	SE
+)
+
+type mz struct {
+	pe [2]Pe
+	sa bool
+}
+
+type MzArr struct {
+	m1 mz
+	m2 mz
+}
+
+type Ass struct {
+	wt  string
+	wl  float64
+	tn  int64
+	cm  float64
+	msp float64
+	ar  []MzArr
+	uf  float64
+}
+
+var (
+	L11 = Ass{
+		wt:  "ku",
+		wl:  2500.0,
+		tn:  25,
+		cm:  2 * 3.14 * (wl / tn),
+		msp: cm / uf,
+		ar:  [uf]MzArr{},
+		uf:  2,
+	}
+
+	L22 = Ass{
+		wt:  "ar",
+		wl:  5000.0,
+		tn:  25,
+		cm:  2 * 3.14 * (wl / tn),
+		msp: cm / uf,
+		ar:  [uf]MzArr{},
+		uf:  4,
+	}
+)
+
+func (a *Ass) In() {
+	for N, a := range a.ar {
+		a = MzArr{
+			m1: mz{pe: [2]Pe{{NH, SE}, {SE, NH}}, sa: true},
+			m2: mz{pe: [2]Pe{{SE, NH}, {NH, SE}}, sa: false},
+		}
+	}
+}
+
+func (a *Ass) Po() {
+	for {
+		for _, ar := range a.ar {
+			go func() { ar.Stc() }()
+		}
+	}
+}
+
+func (a *MzArr) Stc() {
+	s1 := a.m1.Sa
+	s2 := a.m2.Sa
+	go func() {
+		switch s {
+		case true:
+			a.m1.Sa = false
+		case false:
+			a.m1.Sa = true
+		}
+	}()
+	go func() {
+		switch s {
+		case false:
+			a.m2.Sa = true
+		case true:
+			a.m2.Sa = false
+		}
+	}()
+}
